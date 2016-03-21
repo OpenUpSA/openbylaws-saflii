@@ -104,7 +104,6 @@ def fetch(target, url):
     remote = get_remote_documents(url)
     remote = {expression_uri(d): d for d in remote}
     click.echo("Remote: %d" % len(remote))
-
     do_fetch(remote, target)
 
 
