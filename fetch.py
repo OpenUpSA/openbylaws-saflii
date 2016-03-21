@@ -39,7 +39,6 @@ def download(uri, doc, target):
     mkdir_p(path)
 
     base_fname = os.path.join(path, base_filename(doc))
-    return
 
     # add alternate forms
     for title in ['Standalone HTML', 'ePUB', 'PDF']:
