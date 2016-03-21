@@ -7,23 +7,31 @@ structure that can be ingested into [SAFLII](http://www.saflii.org/) by pulling 
 
 1. Clone it from GitHub:
 
+    ```bash
     git clone https://github.com/Code4SA/openbylaws-saflii.git
     cd openbylaws-saflii
+    ```
 
 2. Install dependencies using [pip](https://pip.pypa.io/en/stable/):
 
+    ```bash
     pip install -r requirements.txt
+    ```
 
 3. Run the archiver, giving it a target directory where to put the documents:
 
+    ```bash
     python archive.py --target /tmp/bylaws-test
+    ```
 
 ## Updating this script
 
 When there's a new version, just use ``git pull`` to update:
 
-    cd openyblaws-saflii
-    git pull
+```bash
+cd openyblaws-saflii
+git pull
+```
 
 # License
 
