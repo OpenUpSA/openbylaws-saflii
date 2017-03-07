@@ -16,6 +16,7 @@ API_ENDPOINT = os.environ.get('INDIGO_API_URL', "http://indigo.openbylaws.org.za
 BASE_DIR = os.getcwd()
 
 session = requests.Session()
+session.verify = False
 
 
 def make_path(uri, doc, target):
@@ -91,7 +92,7 @@ def expression_uri(doc):
 
 @click.command()
 @click.option('--target', default='.', help='Target directory')
-@click.option('--url', default=API_ENDPOINT, help='Indigo API URL')
+@click.option('--url', default=API_ENDPOINT, help='Indigo API URL (%s)' % API_ENDPOINT)
 @click.option('--code', help='Jurisdiction code (za, za-cpt, etc.)')
 def fetch(target, url, code):
     url = url + "/" + code
