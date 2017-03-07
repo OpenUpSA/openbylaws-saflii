@@ -6,7 +6,6 @@
 import os
 import requests
 import errno
-import json
 import codecs
 import urlparse
 import click
@@ -17,10 +16,6 @@ BASE_DIR = os.getcwd()
 
 session = requests.Session()
 session.verify = False
-
-
-def make_path(uri, doc, target):
-    return os.path.join(target)
 
 
 def mkdir_p(path):
@@ -35,7 +30,7 @@ def mkdir_p(path):
 def download_doc(uri, doc, target):
     """ Download this document.
     """
-    path = make_path(uri, doc, target)
+    path = os.path.join(target, "Data")
     click.echo("Fetching: %s -> %s" % (uri, path))
     mkdir_p(path)
 
@@ -58,10 +53,6 @@ def download_doc(uri, doc, target):
             click.echo(fname)
             with open(fname, 'wb') as f:
                 f.write(resp.content)
-
-    fname = os.path.join(path, 'metadata.json')
-    with codecs.open(fname, 'w', 'utf-8') as f:
-        json.dump(doc, f)
 
 
 def base_filename(doc):
