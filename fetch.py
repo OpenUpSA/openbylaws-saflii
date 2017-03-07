@@ -31,17 +31,18 @@ def mkdir_p(path):
         pass
 
 
-def download(uri, doc, target):
+def download_doc(uri, doc, target):
     """ Download this document.
     """
     path = make_path(uri, doc, target)
     click.echo("Fetching: %s -> %s" % (uri, path))
     mkdir_p(path)
 
-    base_fname = os.path.join(path, base_filename(doc))
+    doc['base_filename'] = base_filename(doc)
+    base_fname = os.path.join(path, doc['base_filename'])
 
     # add alternate forms
-    for title in ['Standalone HTML', 'ePUB', 'PDF']:
+    for title in ['Standalone HTML', 'PDF']:  # ePUB?
         link = [link for link in doc['links'] if link['title'] == title]
         if link:
             link = link[0]
@@ -67,28 +68,21 @@ def base_filename(doc):
     return doc['frbr_uri'][1:].replace('/', '-')
 
 
-def do_fetch(docs, target):
-    for uri, doc in docs.iteritems():
-        download(uri, doc, target)
+def write_registry(docs, target):
+    fname = os.path.join(target, 'Registry.txt')
+    click.echo("Writing registry to %s" % fname)
 
-    write_manifest(docs, target)
-
-
-def write_manifest(docs, target):
-    fname = os.path.join(target, 'manifest.txt')
-    click.echo("Writing manifest to %s" % fname)
     with codecs.open(fname, 'w', 'utf-8') as f:
         for doc in docs.itervalues():
-            fname = base_filename(doc)
-            f.write("\"%s\",%s,%s.html\n" % (doc['title'], doc['year'], fname))
+            f.write("\"%s.html\" (%s) %s\n" % (doc['base_filename'], doc['publication_date'], doc['title']))
 
 
 def get_remote_documents(url):
-    resp = session.get(url + '/documents.json')
+    resp = session.get(url + '.json')
     resp.raise_for_status()
     docs = resp.json()['results']
     # only published docs
-    return [d for d in docs if not d['draft']]
+    return docs[:2]
 
 
 def expression_uri(doc):
@@ -98,13 +92,19 @@ def expression_uri(doc):
 @click.command()
 @click.option('--target', default='.', help='Target directory')
 @click.option('--url', default=API_ENDPOINT, help='Indigo API URL')
-def fetch(target, url):
+@click.option('--code', help='Jurisdiction code (za, za-cpt, etc.)')
+def fetch(target, url, code):
+    url = url + "/" + code
     click.echo("Archiving documents from %s to %s" % (url, target))
 
-    remote = get_remote_documents(url)
-    remote = {expression_uri(d): d for d in remote}
-    click.echo("Remote: %d" % len(remote))
-    do_fetch(remote, target)
+    docs = get_remote_documents(url)
+    docs = {expression_uri(d): d for d in docs}
+    click.echo("Documents: %d" % len(docs))
+
+    for uri, doc in docs.iteritems():
+        download_doc(uri, doc, target)
+
+    write_registry(docs, target)
 
 
 if __name__ == '__main__':
