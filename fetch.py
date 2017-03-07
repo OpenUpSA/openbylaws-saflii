@@ -57,7 +57,10 @@ def download_doc(uri, doc, target):
             fname = base_fname + ext
             click.echo(fname)
             with open(fname, 'wb') as f:
-                f.write(resp.content)
+                content = resp.content
+                if title == 'HTML':
+                    content = u"<body>" + content + u"</body>"
+                f.write(content)
 
 
 def base_filename(doc):
