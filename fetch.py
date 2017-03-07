@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 # Script that downloads documents from indigo.openbylaws.org.za
 # and stores them for use with the SAFLII content system.
