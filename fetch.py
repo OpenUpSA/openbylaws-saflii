@@ -43,7 +43,7 @@ def download_doc(uri, doc, target):
     base_fname = os.path.join(path, doc['base_filename'])
 
     # add alternate forms
-    for title in ['Standalone HTML', 'PDF']:  # ePUB?
+    for title in ['HTML', 'PDF']:  # ePUB?
         link = [link for link in doc['links'] if link['title'] == title]
         if link:
             link = link[0]
