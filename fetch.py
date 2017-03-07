@@ -43,7 +43,7 @@ def download_doc(uri, doc, target):
     base_fname = os.path.join(path, doc['base_filename'])
 
     # add alternate forms
-    for title in ['HTML', 'PDF']:  # ePUB?
+    for title in ['Standalone HTML']:  # PDF? ePUB?
         link = [link for link in doc['links'] if link['title'] == title]
         if link:
             link = link[0]
@@ -57,10 +57,7 @@ def download_doc(uri, doc, target):
             fname = base_fname + ext
             click.echo(fname)
             with open(fname, 'wb') as f:
-                content = resp.content
-                if title == 'HTML':
-                    content = u'<body><div class="akoma-ntoso">' + content + u'</div></body>'
-                f.write(content)
+                f.write(resp.content)
 
 
 def base_filename(doc):
