@@ -13,6 +13,11 @@ import click
 
 API_ENDPOINT = os.environ.get('INDIGO_API_URL', "http://indigo.openbylaws.org.za/api")
 BASE_DIR = os.getcwd()
+REGIONS = {
+    'za-cpt': "City of Cape Town",
+    'za-eth': "eThekwini",
+    'za-jhb': "City of Johannesburg",
+}
 
 session = requests.Session()
 session.verify = False
@@ -66,7 +71,13 @@ def write_registry(docs, target):
 
     with codecs.open(fname, 'w', 'utf-8') as f:
         for doc in docs:
-            f.write("\"%s.html\" (%s) %s\n" % (doc['base_filename'], doc['publication_date'], doc['title']))
+            region = '%s-%s' % (doc['country'], doc['locality'])
+
+            title = doc['title']
+            if not title.startswith(REGIONS[region]):
+                title = REGIONS[region] + ": " + title
+
+            f.write("\"%s.html\" (%s) %s\n" % (doc['base_filename'], doc['publication_date'], title))
 
 
 def get_remote_documents(url):
@@ -97,17 +108,17 @@ def fetch(url, target):
 @click.command()
 @click.option('--target', default='.', help='Target directory')
 @click.option('--url', default=API_ENDPOINT, help='Indigo API URL (%s)' % API_ENDPOINT)
-@click.option('--codes', help='Comma-separated jurisdiction codes (ALL, za-cpt, za-eth, etc.)')
-def main(target, url, codes):
-    if codes == "ALL":
-        codes = ["za-cpt", "za-jhb", "za-eth"]
+@click.option('--regions', help='Comma-separated region codes (ALL, za-cpt, za-eth, etc.)')
+def main(target, url, regions):
+    if regions == "ALL":
+        regions = REGIONS.keys()
     else:
-        codes = codes.split(",")
-    click.echo("Codes: " + ", ".join(codes))
+        regions = regions.split(",")
+    click.echo("Regions: " + ", ".join(regions))
 
     all_docs = []
-    for code in codes:
-        all_docs.extend(fetch(url + "/" + code, target))
+    for region in regions:
+        all_docs.extend(fetch(url + "/" + region, target))
 
     write_registry(all_docs, target)
 
