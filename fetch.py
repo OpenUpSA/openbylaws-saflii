@@ -59,7 +59,7 @@ def download_doc(uri, doc, target):
             with open(fname, 'wb') as f:
                 content = resp.content
                 if title == 'HTML':
-                    content = u"<body>" + content + u"</body>"
+                    content = u'<body><div class="akoma-ntoso">' + content + u'</div></body>'
                 f.write(content)
 
 
