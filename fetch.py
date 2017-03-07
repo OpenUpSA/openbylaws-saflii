@@ -85,7 +85,7 @@ def get_remote_documents(url):
     resp.raise_for_status()
     docs = resp.json()['results']
     # only published docs
-    return docs[:2]
+    return docs[:10]
 
 
 def expression_uri(doc):
