@@ -65,7 +65,7 @@ def write_registry(docs, target):
     click.echo("Writing registry to %s" % fname)
 
     with codecs.open(fname, 'w', 'utf-8') as f:
-        for doc in docs.itervalues():
+        for doc in docs:
             f.write("\"%s.html\" (%s) %s\n" % (doc['base_filename'], doc['publication_date'], doc['title']))
 
 
@@ -81,12 +81,7 @@ def expression_uri(doc):
     return '/'.join([doc['frbr_uri'], doc['language'], doc['expression_date'] or doc['publication_date']])
 
 
-@click.command()
-@click.option('--target', default='.', help='Target directory')
-@click.option('--url', default=API_ENDPOINT, help='Indigo API URL (%s)' % API_ENDPOINT)
-@click.option('--code', help='Jurisdiction code (za, za-cpt, etc.)')
-def fetch(target, url, code):
-    url = url + "/" + code
+def fetch(url, target):
     click.echo("Archiving documents from %s to %s" % (url, target))
 
     docs = get_remote_documents(url)
@@ -96,8 +91,26 @@ def fetch(target, url, code):
     for uri, doc in docs.iteritems():
         download_doc(uri, doc, target)
 
-    write_registry(docs, target)
+    return docs.values()
+
+
+@click.command()
+@click.option('--target', default='.', help='Target directory')
+@click.option('--url', default=API_ENDPOINT, help='Indigo API URL (%s)' % API_ENDPOINT)
+@click.option('--codes', help='Comma-separated jurisdiction codes (ALL, za-cpt, za-eth, etc.)')
+def main(target, url, codes):
+    if codes == "ALL":
+        codes = ["za-cpt", "za-jhb", "za-eth"]
+    else:
+        codes = codes.split(",")
+    click.echo("Codes: " + ", ".join(codes))
+
+    all_docs = []
+    for code in codes:
+        all_docs.extend(fetch(url + "/" + code, target))
+
+    write_registry(all_docs, target)
 
 
 if __name__ == '__main__':
-    fetch()
+    main()
