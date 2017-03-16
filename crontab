@@ -1,4 +1,4 @@
 SHELL=/bin/bash
 
 # run every day at 03:40
-40 3 * * * $HOME/openbylaws-saflii/fetch.py --target /data/home/saflii/raw/ZABYLAWS/ --regions ALL >> $HOME/openbylaws-saflii/refresh.log 2>&1
+40 3 * * * $HOME/openbylaws-saflii/fetch-all.sh >> $HOME/openbylaws-saflii/fetch-all.log 2>&1

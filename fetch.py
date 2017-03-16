@@ -113,7 +113,7 @@ def main(target, url, regions):
     if regions == "ALL":
         regions = REGIONS.keys()
     else:
-        regions = regions.split(",")
+        regions = [r.lower() for r in regions.split(",")]
     click.echo("Regions: " + ", ".join(regions))
 
     all_docs = []

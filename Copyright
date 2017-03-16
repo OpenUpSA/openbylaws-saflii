@@ -1,0 +1,35 @@
+<link href="//indigo-web.openup.org.za/dist/0.1.1/css/akoma-ntoso.min.css" rel="stylesheet" />
+
+<p>By-laws are provided courtesy of <a href="https://openbylaws.org.za">Open By-laws South Africa</a>. There is no copyright on the original content of the by-laws. The HTML form of the by-laws is licensed under a <a href="http://creativecommons.org/licenses/by/2.5/za/deed.en_US">Creative Commons Attribution 2.5 South Africa License</a>.</p>
+
+<style>
+.colophon {
+  display: none;
+}
+
+.toc {
+  box-sizing: border-box;
+  width: 30%;
+  float: left;
+  padding-right: 30px;
+}
+
+.toc li {
+  list-style: none;
+  margin-left: 1em;
+  padding: 0px;
+}
+
+.toc > ol > li {
+  margin-left: 0px;
+}
+
+.toc > h3 {
+  display: none !important;
+}
+
+.akoma-ntoso {
+  width: 70%;
+  float: left;
+}
+</style>
