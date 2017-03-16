@@ -18,11 +18,14 @@ structure that can be ingested into [SAFLII](http://www.saflii.org/) by pulling 
     pip install -r requirements.txt
     ```
 
-3. Run the archiver, giving it a target directory where to put the documents:
+3. To install the crontab that updates the by-laws every morning, use ``crontab crontab``.
+
+4. Run the archiver, giving it a target directory where to put the documents:
 
     ```bash
-    python archive.py --target /tmp/bylaws-test
+    python archive.py --target /tmp/bylaws-test -regions za-cpt
     ```
+
 
 ## Updating this script
 
