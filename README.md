@@ -18,7 +18,7 @@ structure that can be ingested into [SAFLII](http://www.saflii.org/) by pulling 
     pip install -r requirements.txt
     ```
 
-3. To install the crontab that updates the by-laws every morning, use ``crontab crontab``.
+3. To install the crontab that updates the by-laws every morning, use ``crontab crontab``. THIS WILL OVERRIGHT YOUR EXISTING CRONTAB!
 
 4. Run the archiver, giving it a target directory where to put the documents:
 
