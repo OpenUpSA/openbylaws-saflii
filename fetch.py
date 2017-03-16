@@ -71,12 +71,7 @@ def write_registry(docs, target):
 
     with codecs.open(fname, 'w', 'utf-8') as f:
         for doc in docs:
-            region = '%s-%s' % (doc['country'], doc['locality'])
-
             title = doc['title']
-            if not title.startswith(REGIONS[region]):
-                title = REGIONS[region] + ": " + title
-
             f.write("\"%s.html\" (%s) %s\n" % (doc['base_filename'], doc['publication_date'], title))
 
 
