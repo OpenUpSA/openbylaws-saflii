@@ -79,8 +79,7 @@ def get_remote_documents(url):
     resp = session.get(url + '.json')
     resp.raise_for_status()
     docs = resp.json()['results']
-    # only published docs
-    return docs[:10]
+    return docs
 
 
 def expression_uri(doc):
