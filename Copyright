@@ -32,4 +32,22 @@
   width: 70%;
   float: left;
 }
+
+.akoma-ntoso .term-link {
+  border-bottom: 1px dotted;
+  cursor: pointer;
+}
 </style>
+
+<script type="text/javascript">
+document.querySelectorAll(".akoma-ntoso .akn-term[data-refersto]").forEach(function(term) {
+  // make them look nice
+  term.classList.add("term-link");
+
+  // jump to term definition
+  term.addEventListener("click", function(e) {
+    e.preventDefault();
+    document.querySelector('.akoma-ntoso .akn-def[data-refersto="' + term.getAttribute("data-refersto") + '"]').scrollIntoView();
+  });
+});
+</script>
