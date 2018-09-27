@@ -17,6 +17,8 @@ REGIONS = {
     'za-cpt': "City of Cape Town",
     'za-eth': "eThekwini",
     'za-jhb': "City of Johannesburg",
+    'za-wc033': "Cape Agulhas",
+    'za-wc011': "Matzikama",
 }
 
 session = requests.Session()
