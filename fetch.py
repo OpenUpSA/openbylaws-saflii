@@ -99,6 +99,12 @@ def fetch(url, target):
     return docs.values()
 
 
+def setup_session():
+    with open("indigo-api-token", "r") as f:
+        token = f.read().strip()
+        session.headers.update({'Authorization': 'Token %s' % token})
+
+
 @click.command()
 @click.option('--target', default='.', help='Target directory')
 @click.option('--url', default=API_ENDPOINT, help='Indigo API URL (%s)' % API_ENDPOINT)
@@ -109,6 +115,8 @@ def main(target, url, regions):
     else:
         regions = [r.lower() for r in regions.split(",")]
     click.echo("Regions: " + ", ".join(regions))
+
+    setup_session()
 
     all_docs = []
     for region in regions:
